@@ -9,15 +9,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'echo "Building app..."'
-                sh 'mkdir build && echo "build artifact" > build/app.txt'
+                echo "Building app..."
+                mkdir build && echo "build artifact" > build/app.txt
             }
         }
 
         stage('Test') {
             steps {
-                sh 'echo "Running tests..."'
-                sh 'cat build/app.txt'
+                echo "Running tests..."
+                cat build/app.txt
             }
         }
 
