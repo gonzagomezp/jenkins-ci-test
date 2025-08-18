@@ -6,38 +6,46 @@ pipeline {
         MY_VAR = "hello"
     }
 
+    triggers {
+        pollSCM('* * * * *') // cad 1 minuto se fij si hy cambios en las ramas?
+    }
+
     stages {
-        stage('Build') {
+        stage('checkout') {
             steps {
-                echo "Building app..."
-                mkdir build && echo "build artifact" > build/app.txt
+            script {
+                echo "${env.BRANCH_NAME}"
+            }
+        }        
+        
+        stage('test') {
+            steps {
+                npm install
+                npm test
             }
         }
 
-        stage('Test') {
+        stage('build') {
             steps {
-                echo "Running tests..."
-                cat build/app.txt
+                script {
+                    npm install
+                    npm build
+                }
             }
         }
-
-        stage('Deploy') {
+        
+       /*  stage('build docker image') {
             steps {
                 echo 'Deploying...'
                 // commands to deploy your app
             }
         }
-    }
 
-    post {
-        always {
-            echo 'This always runs, e.g., cleanup'
-        }
-        success {
-            echo 'This runs if the pipeline succeeded'
-        }
-        failure {
-            echo 'This runs if the pipeline failed'
-        }
+        stage('deploy') {
+            steps {
+                echo 'Deploying...'
+                // commands to deploy your app
+            }
+        } */
     }
 }
