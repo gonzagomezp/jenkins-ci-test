@@ -20,6 +20,7 @@ pipeline {
         
         stage('test') {
             steps {
+                bat 'npm config set strict-ssl false' 
                 bat 'npm install'
                 bat 'npm test'
             }
