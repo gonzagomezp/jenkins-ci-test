@@ -1,9 +1,8 @@
 pipeline {
     agent any              // where to run the pipeline (any available node)
 
-    environment {
-        // optional environment variables
-        MY_VAR = "hello"
+    tools {
+        nodejs "NodeJS_7.8"
     }
 
     triggers {
