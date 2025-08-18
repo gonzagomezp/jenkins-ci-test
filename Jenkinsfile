@@ -20,10 +20,8 @@ pipeline {
         
         stage('test') {
             steps {
-                script {
-                    npm install
-                    npm test
-                }
+                sh 'npm install'
+                sh 'npm test'
             }
         }
 
