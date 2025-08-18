@@ -13,10 +13,11 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-            script {
-                echo "${env.BRANCH_NAME}"
-            }
-        }        
+                script {
+                    echo "${env.BRANCH_NAME}"
+                }
+            } 
+        }
         
         stage('test') {
             steps {
