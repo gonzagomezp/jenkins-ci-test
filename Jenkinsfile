@@ -1,4 +1,8 @@
 pipeline {
+
+    // Definir la versión como variable
+    def VERSION = 'v1.1'
+
     agent any              // where to run the pipeline (any available node)
 
     tools {
@@ -14,7 +18,7 @@ pipeline {
         stage('checkout') {
             steps {
                 script {
-                    echo "node${env.BRANCH_NAME}:v1.0"
+                    echo "node${env.BRANCH_NAME}:${VERSION}"
                 }
             } 
         }
@@ -36,7 +40,7 @@ pipeline {
         
         stage('build docker image') {
             steps {
-                bat "docker build -t node${env.BRANCH_NAME}:v1.0 ."
+                bat "docker build -t node${env.BRANCH_NAME}:${VERSION} ."
             }
         }
 
@@ -50,11 +54,11 @@ pipeline {
                         bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
                         
                         // Ahora los comandos de tag y push funcionarán
-                        bat "docker tag node${env.BRANCH_NAME}:v1.0 gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
-                        bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
+                        bat "docker tag node${env.BRANCH_NAME}:${VERSION} gonzagomezp1/node${env.BRANCH_NAME}:${VERSION}"
+                        bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:${VERSION}"
                     }
                 }
             }
         }
     }
-}
+    }
