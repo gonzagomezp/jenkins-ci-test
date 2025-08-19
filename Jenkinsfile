@@ -34,14 +34,13 @@ pipeline {
             }
         }
         
-       /*  stage('build docker image') {
+        stage('build docker image') {
             steps {
-                echo 'Deploying...'
-                // commands to deploy your app
+                bat 'docker build -t image1 .'
             }
         }
 
-        stage('deploy') {
+        /* stage('deploy') {
             steps {
                 echo 'Deploying...'
                 // commands to deploy your app
