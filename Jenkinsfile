@@ -42,9 +42,18 @@ pipeline {
 
         stage('push image') {
             steps {
-                // Sintaxis: docker tag <nombre_imagen_origen> <nombre_imagen_destino>
-                bat "docker tag node${env.BRANCH_NAME}:v1.0 gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
-                bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
+                // El 'credentialsId' debe ser el mismo ID que pusiste en Jenkins
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    script {
+                        // Iniciar sesión en Docker Hub usando las credenciales inyectadas
+                        // El --password-stdin es más seguro que pasar la contraseña directamente
+                        bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                        
+                        // Ahora los comandos de tag y push funcionarán
+                        bat "docker tag node${env.BRANCH_NAME}:v1.0 gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
+                        bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
+                    }
+                }
             }
         }
     }
