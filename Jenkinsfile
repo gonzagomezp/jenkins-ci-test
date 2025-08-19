@@ -39,5 +39,11 @@ pipeline {
                 bat "docker build -t node${env.BRANCH_NAME}:v1.0 ."
             }
         }
+
+        stage('push image') {
+            steps {
+                bat "docker push node${env.BRANCH_NAME}:v1.0 ."
+            }
+        }
     }
 }
