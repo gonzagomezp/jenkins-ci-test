@@ -42,6 +42,8 @@ pipeline {
 
         stage('push image') {
             steps {
+                // Sintaxis: docker tag <nombre_imagen_origen> <nombre_imagen_destino>
+                bat "docker tag node${env.BRANCH_NAME}:v1.0 gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
                 bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:v1.0"
             }
         }
