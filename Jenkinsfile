@@ -2,7 +2,8 @@ pipeline {
     agent any              // where to run the pipeline (any available node)
 
     tools {
-        nodejs "NodeJS_7.8"
+        // nodejs "NodeJS_7.8"
+        nodejs "lts"
     }
 
     triggers {
