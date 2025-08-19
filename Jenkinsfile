@@ -4,7 +4,7 @@ pipeline {
 
     // Definir la versión y otras variables de entorno aquí
     environment {
-        VERSION = 'v1.1'
+        VERSION = 'v1.0'
     }
 
     tools {
