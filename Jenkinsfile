@@ -14,7 +14,7 @@ pipeline {
         stage('checkout') {
             steps {
                 script {
-                    echo "${env.BRANCH_NAME}"
+                    echo "node${env.BRANCH_NAME}:v1.0"
                 }
             } 
         }
@@ -36,7 +36,7 @@ pipeline {
         
         stage('build docker image') {
             steps {
-                bat 'docker build -t image1 .'
+                bat 'docker build -t node${env.BRANCH_NAME}:v1.0 .'
             }
         }
     }
