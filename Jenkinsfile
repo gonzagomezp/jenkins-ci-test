@@ -36,7 +36,7 @@ pipeline {
         
         stage('build docker image') {
             steps {
-                bat 'docker build -t node${env.BRANCH_NAME}:v1.0 .'
+                bat "docker build -t node${env.BRANCH_NAME}:v1.0 ."
             }
         }
     }
