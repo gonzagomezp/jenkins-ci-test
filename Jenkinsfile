@@ -42,7 +42,7 @@ pipeline {
 
         stage('push image') {
             steps {
-                bat "docker push node${env.BRANCH_NAME}:v1.0 ."
+                bat "docker push node${env.BRANCH_NAME}:v1.0"
             }
         }
     }
