@@ -1,9 +1,11 @@
 pipeline {
 
-    // Definir la versión como variable
-    def VERSION = 'v1.1'
+    agent any
 
-    agent any              // where to run the pipeline (any available node)
+    // Definir la versión y otras variables de entorno aquí
+    environment {
+        VERSION = 'v1.1'
+    }
 
     tools {
         // nodejs "NodeJS_7.8"
@@ -11,21 +13,22 @@ pipeline {
     }
 
     triggers {
-        pollSCM('* * * * *') // cad 1 minuto se fij si hy cambios en las ramas?
+        pollSCM('* * * * *')
     }
 
     stages {
         stage('checkout') {
             steps {
                 script {
-                    echo "node${env.BRANCH_NAME}:${VERSION}"
+                    // Para acceder a la variable en un script block, usa env.VERSION
+                    echo "node${env.BRANCH_NAME}:${env.VERSION}"
                 }
-            } 
+            }
         }
-        
+
         stage('test') {
             steps {
-                bat 'npm config set strict-ssl false' 
+                bat 'npm config set strict-ssl false'
                 bat 'npm install'
                 bat 'npm test'
             }
@@ -37,9 +40,10 @@ pipeline {
                 bat 'npm run build'
             }
         }
-        
+
         stage('build docker image') {
             steps {
+                // En comandos bat/sh, puedes usar %VARIABLE% en Windows o $VARIABLE en Linux
                 bat "docker build -t node${env.BRANCH_NAME}:${VERSION} ."
             }
         }
@@ -52,8 +56,7 @@ pipeline {
                         // Iniciar sesión en Docker Hub usando las credenciales inyectadas
                         // El --password-stdin es más seguro que pasar la contraseña directamente
                         bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
-                        
-                        // Ahora los comandos de tag y push funcionarán
+
                         bat "docker tag node${env.BRANCH_NAME}:${VERSION} gonzagomezp1/node${env.BRANCH_NAME}:${VERSION}"
                         bat "docker push gonzagomezp1/node${env.BRANCH_NAME}:${VERSION}"
                     }
@@ -61,4 +64,4 @@ pipeline {
             }
         }
     }
-    }
+}
