@@ -39,12 +39,5 @@ pipeline {
                 bat 'docker build -t image1 .'
             }
         }
-
-        /* stage('deploy') {
-            steps {
-                echo 'Deploying...'
-                // commands to deploy your app
-            }
-        } */
     }
 }
